@@ -1,23 +1,26 @@
 <?php
 
-    require_once 'models/Passagem.php';
-
 class Passageiro {
 
     
     private string $nome;
+    private string $genero;
     private int $cpf;
-    private int $idPassagem;
+    private int $peso;
+    private Passagem $passagem;
+    private Array $bagagens;
     private string $status;
 
 
 
-    public function __construct($nome, $cpf, $passagem) 
+    public function __construct($nome,$genero, $cpf, $peso) 
     {
         $this->nome = $nome;
+        $this->genero = $genero;
         $this->cpf = $cpf;
-        $this->idPassagem = $passagem;
+        $this->peso = $peso;
         $this->status = 'NÃO EMBARCADO';
+        $this->bagagens = [];
     }
 
 
@@ -37,9 +40,9 @@ class Passageiro {
         $this->status = 'NÃO EMBARCADO';
     }
 
-    public function coletarBagagem(): void
+    public function addBagagem(Bagagem $bagagem): void
     {
-
+        array_push($this->bagagens, $bagagem);
     }
 
    
@@ -49,14 +52,29 @@ class Passageiro {
         return $this->nome;
     }
 
+    public function getGenero() : string
+    {
+        return $this->genero;
+    }
+
     public function getCpf() : int 
     {
         return $this->cpf;
     }
 
-    public function getIdPassagem() : int 
+    public function getPassagem() : Passagem 
     {
-        return $this->idPassagem;
+        return $this->passagem;
+    }
+
+    public function getBagagens() : array 
+    {
+        return $this->bagagens;
+    }
+
+    public function getPeso() : int
+    {
+        return $this->peso;
     }
 
     public function getStatus() : string 

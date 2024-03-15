@@ -1,18 +1,16 @@
 <?php
 
-    require 'models/Passageiro.php';
-
 class Bagagem {
 
     private int $id;
-    private int $idPassageiro;
+    private float $peso;
     private string $status;
 
-    public function __construct($id, $idPassageiro)
+    public function __construct(int $id, int $peso)
     {
         $this->id = $id;
-        $this->idPassageiro = $idPassageiro;
-        $this->id = 'NÃO DESPACHADA';
+        $this->peso = $peso;
+        $this->status = 'NÃO DESPACHADA';
     }
 
     public function despachar() : void 
@@ -32,14 +30,14 @@ class Bagagem {
         return $this->id;
     }
 
-    public function getPassageiro() : int
-    {
-        return $this->idPassageiro;
-    }
-
-    public function getStatus() 
+    public function getStatus() : string
     {
         return $this->status;
+    }
+
+    public function getPeso() : float
+    {
+        return $this->peso;
     }
 
 

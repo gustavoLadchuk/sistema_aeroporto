@@ -1,20 +1,14 @@
 <?php
 
-    require_once 'models/ListaPassageiros.php';
-
 class Passagem {
 
     private int $id;
-    private int $idPassageiro;
-    private int $idListaPassageiros;
-    private int $idVoo;
+    private Voo $voo;
 
-    public function __construct($id, $idPassageiro, $idLista, $idVoo)
+    public function __construct(int $id, Voo $voo)
     {
         $this->id = $id;
-        $this->idPassageiro = $idPassageiro;
-        $this->idListaPassageiros = $idLista;
-        $this->idVoo = $idVoo;
+        $this->voo = $voo;
     }
 
 
@@ -24,18 +18,8 @@ class Passagem {
         return $this->id;
     }
 
-    public function getIdPassageiro() : int
+    public function getIdVoo() : Voo
     {
-        return $this->idPassageiro;
-    }
-
-    public function getIdListaPassageiros() : int
-    {
-        return $this->idListaPassageiros;
-    }
-
-    public function getIdVoo() : int
-    {
-        return $this->idVoo;
+        return $this->voo;
     }
 }

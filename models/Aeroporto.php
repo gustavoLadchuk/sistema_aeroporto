@@ -1,36 +1,44 @@
 <?php
 
-require_once 'models/Local.php';
-
 class Aeroporto{
 
-    private int $id;
     private string $nome;
-    private int $idlocalizacao;
+    private Local $local;
+    private array $aeronaves;
+    private array $pistas;
+    private array $voos;
 
-    public function __construct($id, $nome, $idlocalizacao)
+    public function __construct(int $nome, Local $local)
     {
-        $this->id = $id;
         $this->nome = $nome;
-        $this->idlocalizacao = $idlocalizacao;
-
+        $this->local = $local;
+        $this->aeronaves = [];
+        $this->pistas = [];
+        $this->voos = [];
     }
 
 
-
-    public function getId() : string 
-    {
-        return $this->id;
+    public function addAeronave(Aeronave $aeronave) : void {
+        array_push($this->aeronaves, $aeronave);
     }
+
+    public function addPista(Pista $pista) : void {
+        array_push($this->pistas, $pista);
+    }
+
+    public function addVoo(Voo $voo) : void {
+        array_push($this->voos, $voo);
+    }
+
 
     public function getNome() : string 
     {
         return $this->nome;
     }
 
-    public function getLocalizacao() : string 
+    public function getLocalizacao() : Local 
     {
-        return $this->idlocalizacao;
+        return $this->local;
     }
    
 }

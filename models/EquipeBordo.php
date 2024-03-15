@@ -3,46 +3,60 @@
 class EquipeBordo {
 
     private int $id;
-    private int $idPiloto;
-    private int $idCopiloto;
-    private int $idServicoBordo;
-    private int $idVoo;
+    private Funcionario $piloto;
+    private Funcionario $copiloto;
+    private Funcionario $servicoBordo;
 
-    public function __construct($id, $piloto, $copiloto, $servico, $voo)
+    public function __construct($id)
     {
         $this->id = $id;
-        $this->idPiloto = $piloto;
-        $this->idCopiloto = $copiloto;
-        $this->idServicoBordo = $servico;
-        $this->idVoo = $voo;
-
     }
 
 
+    //TODO simplificar o cadastro de funcionarios a uma funcao
+    public function setPiloto(Funcionario $piloto) {
+        if ($piloto->getCargo() == 'PILOTO'){
+            $this->piloto = $piloto;
+        }else{
+            echo 'Esse funcionário não é um piloto';
+        }
+    }
+
+    public function setCopiloto(Funcionario $copiloto) {
+        if ($copiloto->getCargo() == 'COPILOTO'){
+            $this->copiloto = $copiloto;
+        }else{
+            echo 'Esse funcionário não é um copiloto';
+        }
+    }
+
+    public function setServicoBordo(Funcionario $servico) {
+        if ($servico->getCargo() == 'SERVIÇO DE BORDO'){
+            $this->servicoBordo = $servico;
+        }else{
+            echo 'Esse funcionário não é do serviço de bordo';
+        }
+    }
 
     public function getId() : int 
     {
         return $this->id;
     }
 
-    public function getPiloto() : int 
+    public function getPiloto() : Funcionario 
     {
-        return $this->idPiloto;
+        return $this->piloto;
     }
 
-    public function getCopiloto() : int 
+    public function getCopiloto() : Funcionario 
     {
-        return $this->idCopiloto;
+        return $this->copiloto;
     }
 
-    public function getServico() : int 
+    public function getServico() : Funcionario 
     {
-        return $this->idServicoBordo;
+        return $this->servicoBordo;
     }
 
-    public function getVoo() : int 
-    {
-        return $this->idVoo;
-    }
    
 }
