@@ -5,36 +5,24 @@ class EquipeBordo {
     private int $id;
     private Funcionario $piloto;
     private Funcionario $copiloto;
-    private Funcionario $servicoBordo;
+    private Funcionario $comissarioDeBordo;
 
     public function __construct($id)
     {
         $this->id = $id;
     }
 
-
-    //TODO simplificar o cadastro de funcionarios a uma funcao
-    public function setPiloto(Funcionario $piloto) {
-        if ($piloto->getCargo() == 'PILOTO'){
-            $this->piloto = $piloto;
+    public function setFuncionario(Funcionario $funcionario){
+        if ($funcionario->getCargo() == 'PILOTO' && $this->piloto == null)
+        {
+            $this->piloto = $funcionario;
+        }else if ($funcionario->getCargo() == 'COPILOTO' && $this->copiloto == null)
+        {
+            $this->copiloto = $funcionario;
+        }else if ($funcionario->getCargo() == 'COMISSARIO DE BORDO' && $this->comissarioDeBordo == null){
+            $this->comissarioDeBordo = $funcionario;
         }else{
-            echo 'Esse funcionário não é um piloto';
-        }
-    }
-
-    public function setCopiloto(Funcionario $copiloto) {
-        if ($copiloto->getCargo() == 'COPILOTO'){
-            $this->copiloto = $copiloto;
-        }else{
-            echo 'Esse funcionário não é um copiloto';
-        }
-    }
-
-    public function setServicoBordo(Funcionario $servico) {
-        if ($servico->getCargo() == 'SERVIÇO DE BORDO'){
-            $this->servicoBordo = $servico;
-        }else{
-            echo 'Esse funcionário não é do serviço de bordo';
+            echo 'Não foi possível adicionar o funcionário à equipe';
         }
     }
 
@@ -53,9 +41,9 @@ class EquipeBordo {
         return $this->copiloto;
     }
 
-    public function getServico() : Funcionario 
+    public function getComissario() : Funcionario 
     {
-        return $this->servicoBordo;
+        return $this->comissarioDeBordo;
     }
 
    
