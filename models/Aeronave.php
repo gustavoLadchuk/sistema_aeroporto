@@ -8,9 +8,9 @@ class Aeronave {
     private Capacidade $capacidade;
     private string $status;
     private Pista $pista;
-    private float $combustivel;
-    private float $peso;
-    private int $passageiros;
+    private float $combustivelRestante;
+    private float $pesoDeCarga;
+    private int $passageirosEmbarcados;
 
 
     public function __construct(int $id, string $modelo)
@@ -19,9 +19,9 @@ class Aeronave {
         $this->modelo = $modelo;
         $this->status = 'INATIVO';
 
-        $this->combustivel = 0;
-        $this->peso = 0;
-        $this->passageiros = 0;
+        $this->combustivelRestante = 0;
+        $this->pesoDeCarga = 0;
+        $this->passageirosEmbarcados = 0;
     }
 
     public function setTamanho(int $tamanho) : void {
@@ -48,8 +48,8 @@ class Aeronave {
 
     }
 
-    public function adicionarPeso(int $peso) {
-        $this->peso+=$peso;
+    public function adicionarPesoDeCarga(int $peso) {
+        $this->pesoDeCarga+=$peso;
     }
 
     public function editarStatus(string $status) : void {
@@ -61,6 +61,30 @@ class Aeronave {
             ){
                 $this->status = $status;
             }
+    }
+
+    public function embarcar(Passageiro $passageiro): void
+    {
+        if ($passageiro->getStatus() == 'CHECK IN')
+        {
+            $passageiro->embarcar();
+            $this->passageirosEmbarcados++;
+        }else{
+            echo 'O passageiro não pode embarcar';
+        }
+
+    }
+
+    public function desembarcar(Passageiro $passageiro): void
+    {
+        if ($passageiro->getStatus() == 'EMBARCADO')
+        {
+            $passageiro->desembarcar();
+            $this->passageirosEmbarcados--;
+        }else{
+            echo 'O passageiro não pode desembarcar';
+        }
+
     }
 
 
@@ -84,16 +108,16 @@ class Aeronave {
         return $this->pista;
     }
 
-    public function getCombustivel(): float {
-        return $this->combustivel;
+    public function getCombustivelRestante(): float {
+        return $this->combustivelRestante;
     }
 
-    public function getPeso(): float {
-        return $this->peso;
+    public function getPesoDeCarga(): float {
+        return $this->pesoDeCarga;
     }
 
-    public function getPassageiros(): int {
-        return $this->passageiros;
+    public function getPassageirosEmbarcados(): int {
+        return $this->passageirosEmbarcados;
     }
 
 
