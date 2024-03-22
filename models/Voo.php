@@ -54,12 +54,10 @@ class Voo {
 
 
 
-    //TODO adicionar verificação de se o passageiro pode embarcar no voo
+
     public function addPassageiros(Passageiro $passageiro) 
     {
-
         array_push($this->passageiros, $passageiro);
-        $this->aeronave->adicionarPeso($passageiro->getPeso());
     }
 
 
@@ -86,12 +84,11 @@ class Voo {
 
     public function setHorario(int $hora, int $minuto) //TODO criar um sistema para formatar a hora corretamente
     {
-        if ($hora >= 0 && $hora <= 23)
+        if ($hora >= 0 && $hora <= 23 && $minuto <= 0 && $minuto <= 59)
         {
-            if ($minuto <= 0 && $minuto <= 59){
-                $this->horario = $hora . ':'. $minuto;
-            }
-            
+            $this->horario = $hora . ':'. $minuto;
+        }else{
+            echo 'Horário inválido';
         }
         
     }

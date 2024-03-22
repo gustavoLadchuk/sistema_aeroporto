@@ -28,8 +28,18 @@ class Passageiro {
     public function fazerCheckIn(): void
     {
         $this->status = 'CHECK IN';
+        
+        foreach ($this->bagagens as $bagagem) {
+            $bagagem->despachar();
+        }
     }
 
+    public function addBagagem(Bagagem $bagagem): void
+    {
+        array_push($this->bagagens, $bagagem);
+    }
+
+   
     public function embarcar(): void
     {
         $this->status = 'EMBARCADO';
@@ -40,12 +50,11 @@ class Passageiro {
         $this->status = 'NÃO EMBARCADO';
     }
 
-    public function addBagagem(Bagagem $bagagem): void
+    public function comprarPassagem(Passagem $passagem)
     {
-        array_push($this->bagagens, $bagagem);
+        $this->passagem = $passagem;
+        $passagem->getVoo()->addPassageiros($this);
     }
-
-   
 
     public function getNome() : string 
     {

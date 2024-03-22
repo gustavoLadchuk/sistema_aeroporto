@@ -63,12 +63,14 @@ class Aeronave {
             }
     }
 
+    //TODO adicionar verificação de se o passageiro pode embarcar no voo
     public function embarcar(Passageiro $passageiro): void
     {
         if ($passageiro->getStatus() == 'CHECK IN')
         {
             $passageiro->embarcar();
             $this->passageirosEmbarcados++;
+            $this->adicionarPesoDeCarga($passageiro->getPeso());
         }else{
             echo 'O passageiro não pode embarcar';
         }

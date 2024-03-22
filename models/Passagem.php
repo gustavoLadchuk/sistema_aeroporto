@@ -18,7 +18,7 @@ class Passagem {
         return $this->id;
     }
 
-    public function getIdVoo() : Voo
+    public function getVoo() : Voo
     {
         return $this->voo;
     }
