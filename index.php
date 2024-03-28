@@ -1,6 +1,5 @@
 <?php
-require_once 'models/Passageiro.php';
-require_once 'models/Bagagem.php';
+namespace Gustafl\Aeroporto;
 
     $passageiro1 = new Passageiro('Fernando da Costa', 'Masculino', '12345678901', 65);
     $bagagem1 = new Bagagem(1, 15);

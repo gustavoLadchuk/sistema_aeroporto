@@ -1,5 +1,7 @@
 <?php
 
+namespace Gustafl\Aeroporto;
+
 class EquipeBordo {
 
     private int $id;

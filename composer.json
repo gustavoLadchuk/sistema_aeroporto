@@ -1,0 +1,17 @@
+{
+    "name": "gustafl/aeroporto",
+    "description": "Um sistema de aeroporto utilizando Programação Orientada a Objetos.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Gustafl\\Aeroporto\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gustavo Furlan Ladchuk"
+        }
+    ],
+    "require": {}
+}
