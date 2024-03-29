@@ -12,14 +12,14 @@ class Voo {
     private array $passageiros;
     private string $horario;
     private int $distancia;
-    private string $status;
+    private Status $status;
 
 
 
     public function __construct(int $id)
     {
         $this->id = $id;
-        $this->status = 'INATIVO';
+        $this->status = Status::INATIVO;
         $this->passageiros = [];
         
     }
@@ -46,12 +46,12 @@ class Voo {
       }
 
     public function disponibilizarVoo(): void {
-        $this->status = 'DISPONIVEL';
+        $this->status = Status::DISPONIVEL;
     }
 
     public function iniciarVoo(): void
     {
-        $this->status = 'INDISPONIVEL';
+        $this->status = Status::EM_VOO;
     }
 
 
@@ -60,6 +60,10 @@ class Voo {
     public function addPassageiros(Passageiro $passageiro) 
     {
         array_push($this->passageiros, $passageiro);
+        if ($this->passageiros == $this->aeronave->getCapacidade()->getPassageiros())
+        {
+            $this->status == Status::INDISPONIVEL;
+        }
     }
 
 
@@ -84,7 +88,7 @@ class Voo {
         $this->aeroportoDestino = $destino;
     }
 
-    public function setHorario(int $hora, int $minuto) //TODO criar um sistema para formatar a hora corretamente
+    public function setHorario(int $hora, int $minuto)
     {
         if ($hora >= 0 && $hora <= 23 && $minuto <= 0 && $minuto <= 59)
         {
@@ -131,7 +135,7 @@ class Voo {
         return $this->distancia;
     }
 
-    public function getStatus() : int
+    public function getStatus() : Status
     {
         return $this->status;
     }

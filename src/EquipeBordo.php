@@ -2,51 +2,35 @@
 
 namespace Gustafl\Aeroporto;
 
-class EquipeBordo {
+class EquipeBordo
+{
 
-    private int $id;
-    private Funcionario $piloto;
-    private Funcionario $copiloto;
-    private Funcionario $comissarioDeBordo;
+    private Piloto $piloto;
+    private Piloto $copiloto;
+    private Comissario $comissarioDeBordo;
 
-    public function __construct($id)
+
+    public function __construct(Piloto $piloto, Piloto $copiloto, Comissario $comissarioDeBordo)
     {
-        $this->id = $id;
+        $this->piloto = $piloto;
+        $this->copiloto = $copiloto;
+        $this->comissarioDeBordo = $comissarioDeBordo;
     }
 
-    public function setFuncionario(Funcionario $funcionario){
-        if ($funcionario->getCargo() == 'PILOTO' && $this->piloto == null)
-        {
-            $this->piloto = $funcionario;
-        }else if ($funcionario->getCargo() == 'COPILOTO' && $this->copiloto == null)
-        {
-            $this->copiloto = $funcionario;
-        }else if ($funcionario->getCargo() == 'COMISSARIO DE BORDO' && $this->comissarioDeBordo == null){
-            $this->comissarioDeBordo = $funcionario;
-        }else{
-            echo 'Não foi possível adicionar o funcionário à equipe';
-        }
-    }
+    
 
-    public function getId() : int 
-    {
-        return $this->id;
-    }
-
-    public function getPiloto() : Funcionario 
+    public function getPiloto(): Piloto
     {
         return $this->piloto;
     }
 
-    public function getCopiloto() : Funcionario 
+    public function getCopiloto(): Piloto
     {
         return $this->copiloto;
     }
 
-    public function getComissario() : Funcionario 
+    public function getComissario(): Comissario
     {
         return $this->comissarioDeBordo;
     }
-
-   
 }

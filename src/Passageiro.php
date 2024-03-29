@@ -2,26 +2,19 @@
 
 namespace Gustafl\Aeroporto;
 
-class Passageiro {
+class Passageiro extends Pessoa{
 
-    
-    private string $nome;
-    private string $genero;
-    private int $cpf;
-    private int $peso;
+
     private Passagem $passagem;
     private Array $bagagens;
-    private string $status;
+    private Status $status;
 
 
 
     public function __construct($nome,$genero, $cpf, $peso) 
     {
-        $this->nome = $nome;
-        $this->genero = $genero;
-        $this->cpf = $cpf;
-        $this->peso = $peso;
-        $this->status = 'NÃO EMBARCADO';
+        parent::__construct($nome, $genero, $cpf, $peso);
+        $this->status = Status::NAO_EMBARCADO;
         $this->bagagens = [];
     }
 
@@ -29,7 +22,7 @@ class Passageiro {
 
     public function fazerCheckIn(): void
     {
-        $this->status = 'CHECK IN';
+        $this->status = Status::CHECKIN;
         
         foreach ($this->bagagens as $bagagem) {
             $bagagem->despachar();
@@ -44,33 +37,22 @@ class Passageiro {
    
     public function embarcar(): void
     {
-        $this->status = 'EMBARCADO';
+        $this->status = Status::EMBARCADO;
     }
 
     public function desembarcar(): void
     {
-        $this->status = 'NÃO EMBARCADO';
+        $this->status = Status::NAO_EMBARCADO;
     }
 
-    public function comprarPassagem(Passagem $passagem)
+    public function comprarPassagem(Voo $voo)
     {
-        $this->passagem = $passagem;
-        $passagem->getVoo()->addPassageiros($this);
-    }
-
-    public function getNome() : string 
-    {
-        return $this->nome;
-    }
-
-    public function getGenero() : string
-    {
-        return $this->genero;
-    }
-
-    public function getCpf() : int 
-    {
-        return $this->cpf;
+     if ($voo->getStatus() == Status::DISPONIVEL)
+     {
+        $voo->addPassageiros($this);
+        $this->passagem = new Passagem(rand(0, 99999), $voo);
+     }
+        
     }
 
     public function getPassagem() : Passagem 
@@ -83,12 +65,7 @@ class Passageiro {
         return $this->bagagens;
     }
 
-    public function getPeso() : int
-    {
-        return $this->peso;
-    }
-
-    public function getStatus() : string 
+    public function getStatus() : Status 
     {
         return $this->status;
     }
