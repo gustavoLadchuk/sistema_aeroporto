@@ -16,13 +16,22 @@ class Voo {
 
 
 
-    public function __construct(int $id, Aeroporto $origem, Aeroporto $destino)
+    public function __construct(
+        int $id, 
+        Aeronave $aeronave,
+        Aeroporto $origem, 
+        Aeroporto $destino, 
+        Tempo $horario, 
+        EquipeBordo $equipeBordo)
     {
         $this->id = $id;
+        $this->aeronave = $aeronave;
         $this->aeroportoOrigem = $origem;
         $this->aeroportoDestino = $destino;
         $this->status = Status::INATIVO;
         $this->passageiros = [];
+        $this->horario = $horario;
+        $this->equipeBordo = $equipeBordo;
         
     }
 

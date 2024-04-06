@@ -63,7 +63,7 @@ class Aeronave
         }
     }
 
-    public function desembarcar(Passageiro $passageiro): void
+    protected function desembarcar(Passageiro $passageiro): void
     {
         if ($passageiro->getStatus() == Status::EMBARCADO) {
             $passageiro->desembarcar();
@@ -107,5 +107,10 @@ class Aeronave
     public function getPassageirosEmbarcados(): int
     {
         return $this->passageirosEmbarcados;
+    }
+
+    public function getTamanho(): Tamanho
+    {
+        return $this->tamanho;
     }
 }
