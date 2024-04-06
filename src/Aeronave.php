@@ -15,10 +15,11 @@ class Aeronave
     private int $passageirosEmbarcados;
 
 
-    public function __construct(string $modelo, Tamanho $tamanho)
+    public function __construct(string $modelo, Tamanho $tamanho, Capacidade $capacidade)
     {
         $this->modelo = $modelo;
         $this->tamanho = $tamanho;
+        $this->capacidade = $capacidade;
         $this->status = Status::INATIVO;
 
         $this->combustivelRestante = 0;

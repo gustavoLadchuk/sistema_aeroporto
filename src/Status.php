@@ -2,18 +2,18 @@
 
 namespace Gustafl\Aeroporto;
 
-Enum Status {
+Enum Status : string {
 
-    case ATIVO;
-    case INATIVO;
-    case EM_MANUTENCAO;
-    case DISPONIVEL;
-    case INDISPONIVEL;
-    case EM_VOO;
+    case ATIVO = 'Ativo';
+    case INATIVO = 'Inativo';
+    case EM_MANUTENCAO = 'Em manutenção';
+    case DISPONIVEL = 'Disponível';
+    case INDISPONIVEL = 'Indisponível';
+    case EM_VOO = 'Em Voo';
 
-    case NAO_EMBARCADO;
-    case EMBARCADO;
-    case CHECKIN;
+    case NAO_EMBARCADO = 'Não Embarcado';
+    case EMBARCADO = 'Embarcado';
+    case CHECKIN = 'Check In';
     
 
 }

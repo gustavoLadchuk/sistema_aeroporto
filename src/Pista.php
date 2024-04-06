@@ -8,7 +8,7 @@ class Pista {
     private Tamanho $tamanho;
     private Status $status;
 
-    public function __construct(int $id, int $tamanho) {
+    public function __construct(int $id, Tamanho $tamanho) {
         $this->id = $id;
         $this->status = Status::DISPONIVEL;
         $this->tamanho = $tamanho;

@@ -2,10 +2,10 @@
 
 namespace Gustafl\Aeroporto;
 
-Enum Tamanho {
+Enum Tamanho : int{
 
-    case PEQUENO;
-    case MEDIO;
-    case GRANDE;
+    case PEQUENO = 1;
+    case MEDIO = 2;
+    case GRANDE = 3;
 
 }

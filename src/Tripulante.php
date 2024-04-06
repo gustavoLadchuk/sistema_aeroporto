@@ -2,26 +2,20 @@
 
 namespace Gustafl\Aeroporto;
 
-class Tripulante extends Pessoa{
+class Tripulante extends Pessoa
+{
 
-    private string $cargo;
-    private float $peso;
+    private float $salario;
 
-    public function __construct($nome, $genero, $cpf, $peso, $cargo)
+    public function __construct(string $nome, Genero $genero, int $cpf, float $peso, float $salario)
     {
         parent::__construct($nome, $genero, $cpf, $peso);
-        $this->cargo = $cargo;
-        $this->peso = $peso;
+        $this->salario = $salario;
     }
 
-    public function getCargo(): string
+    public function getSalario(): float
     {
-        return $this->cargo;
-    }
-
-    public function getPeso() : float
-    {
-        return $this->peso;
+        return $this->salario;
     }
 
 }

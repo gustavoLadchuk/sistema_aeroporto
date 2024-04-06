@@ -2,53 +2,57 @@
 
 namespace Gustafl\Aeroporto;
 
-class Local {
+class Local
+{
 
-    private int $id;
     private string $pais;
     private string $estado;
     private string $cidade;
-    private string $latitude;
-    private string $longitude;
+    private float $latitude;
+    private float $longitude;
 
-    public function __construct($id, $pais, $estado, $cidade, $latitude, $longitude)
+    public function __construct(string $pais, string $estado, string $cidade)
     {
-        $this->id = $id;
         $this->pais = $pais;
         $this->estado = $estado;
         $this->cidade = $cidade;
+    }
+
+    
+
+    public function setLatitude(float $latitude): void
+    {
         $this->latitude = $latitude;
+    }
+
+    public function setLongitude(float $longitude): void
+    {
         $this->longitude = $longitude;
     }
 
 
 
-    public function getId() : int
-    {
-        return $this->id;
-    }
-
-    public function getPais() : string
+    public function getPais(): string
     {
         return $this->pais;
     }
 
-    public function getEstado() : string
+    public function getEstado(): string
     {
         return $this->estado;
     }
 
-    public function getCidade() : string
+    public function getCidade(): string
     {
         return $this->cidade;
     }
 
-    public function getLatitude() : string
+    public function getLatitude(): float
     {
         return $this->latitude;
     }
 
-    public function getLongitude() : string
+    public function getLongitude(): float
     {
         return $this->longitude;
     }

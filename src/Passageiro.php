@@ -11,7 +11,7 @@ class Passageiro extends Pessoa{
 
 
 
-    public function __construct($nome,$genero, $cpf, $peso) 
+    public function __construct(string $nome, Genero $genero, int $cpf, float $peso) 
     {
         parent::__construct($nome, $genero, $cpf, $peso);
         $this->status = Status::NAO_EMBARCADO;
