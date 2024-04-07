@@ -28,10 +28,9 @@ class Pessoa
         return $this->genero;
     }
 
-    public function getSufixoGenero() : string
+    public function getSufixoGenero(): string
     {
-        if ($this->genero == Genero::MASCULINO)
-        {
+        if ($this->genero == Genero::MASCULINO) {
             return 'o';
         }
         return 'a';

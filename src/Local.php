@@ -18,7 +18,7 @@ class Local
         $this->cidade = $cidade;
     }
 
-    
+
 
     public function setLatitude(float $latitude): void
     {

@@ -656,6 +656,3 @@ function criarElemento($operacao)
         return true;
 
 }
-
-
-?>

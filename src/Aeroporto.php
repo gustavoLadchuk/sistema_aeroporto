@@ -28,9 +28,9 @@ class Aeroporto
         array_push($this->aeronaves, $aeronave);
     }
 
-    public function removeAeronave(Aeronave $aeronave) : void
+    public function removeAeronave(Aeronave $aeronave): void
     {
-        array_splice($this->aeronaves,array_search($aeronave, $this->aeronaves), 1);
+        array_splice($this->aeronaves, array_search($aeronave, $this->aeronaves), 1);
     }
 
     public function addPista(Pista $pista): void
@@ -48,23 +48,27 @@ class Aeroporto
         array_push($this->voos, $voo);
     }
 
-    public function setCoordenadas(float $latitude, float $longitude)
+    public function levarParaGalpao(Aeronave $aeronave, Galpao $galpao): string
     {
-        $this->local->setLatitude($latitude);
-        $this->local->setLongitude($longitude);
-    }
-
-    public function levarParaGalpao(Aeronave $aeronave, Galpao $galpao) : string
-    {
-        if ($aeronave->getQuantidadePassageirosEmbarcados() == 0 && 
-            $galpao->getCapacidadeAeronaves() >= $aeronave->getTamanho()->value)
-        {
+        if (
+            $aeronave->getQuantidadePassageirosEmbarcados() == 0 &&
+            $galpao->getCapacidadeAeronaves() >= $aeronave->getTamanho()->value
+        ) {
             $aeronave->setGalpao($galpao);
             $aeronave->editarStatus(Status::INDISPONIVEL);
             return 'A aeronave foi para o galpão';
         }
         return 'A aeronave não pode ir para o galpão';
     }
+
+
+
+    public function setCoordenadas(float $latitude, float $longitude)
+    {
+        $this->local->setLatitude($latitude);
+        $this->local->setLongitude($longitude);
+    }
+
 
 
     public function getNome(): string
@@ -78,25 +82,25 @@ class Aeroporto
     }
     public function localizacaoToString(): string
     {
-        $localizacao = 
-        $this->local->getCidade() . ', ' . 
-        $this->local->getEstado() . ', ' . 
-        $this->local->getPais();
+        $localizacao =
+            $this->local->getCidade() . ', ' .
+            $this->local->getEstado() . ', ' .
+            $this->local->getPais();
 
         return $localizacao;
     }
 
-    public function getPistas() : array
+    public function getPistas(): array
     {
         return $this->pistas;
     }
 
-    public function getGalpoes() : array
+    public function getGalpoes(): array
     {
         return $this->galpoes;
     }
 
-    public function getAeronaves() : array
+    public function getAeronaves(): array
     {
         return $this->aeronaves;
     }

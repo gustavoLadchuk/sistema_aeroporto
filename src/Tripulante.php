@@ -17,5 +17,4 @@ class Tripulante extends Pessoa
     {
         return $this->salario;
     }
-
 }

@@ -28,10 +28,7 @@ class Aeronave
         $this->passageirosEmbarcados = [];
     }
 
-   
-           
-        
-    
+
 
     public function adicionarPesoDeCarga(float $peso)
     {
@@ -43,16 +40,16 @@ class Aeronave
         $this->status = $status;
     }
 
-    public function calcularPesoDeCarga() {
+    public function calcularPesoDeCarga()
+    {
         $peso = 0;
-        foreach ($this->passageirosEmbarcados as $passageiro){
-            foreach($passageiro->getBagagens() as $bagagem){
+        foreach ($this->passageirosEmbarcados as $passageiro) {
+            foreach ($passageiro->getBagagens() as $bagagem) {
                 $peso += $bagagem->getPeso();
             }
             $peso += $passageiro->getPeso();
         }
-        if ($this->status == Status::PRONTO_PARA_VOO)
-        {
+        if ($this->status == Status::PRONTO_PARA_VOO) {
             $peso += $this->equipeBordo->getPiloto()->getPeso();
             $peso += $this->equipeBordo->getCopiloto()->getPeso();
             $peso += $this->equipeBordo->getComissario()->getPeso();
@@ -61,25 +58,10 @@ class Aeronave
         $this->pesoDeCarga = $peso;
     }
 
-    public function setGalpao(Galpao $galpao)
+    public function abastecer(int $quantidade): string
     {
-        $this->localDaAeronave = $galpao;
-    }
-
-    public function setManutencao(bool $manutencao)
-    {
-        if ($manutencao && $this->status == Status::INDISPONIVEL){
-            $this->status = Status::EM_MANUTENCAO;
-        }else{
-            $this->status = Status::INDISPONIVEL;
-        }
-    }
-
-    public function abastecer(int $quantidade) : string
-    {
-        if ($this->status == Status::EM_MANUTENCAO){
-            if ($quantidade <= ($this->capacidade->getCombustivel() - $this->combustivelRestante))
-            {
+        if ($this->status == Status::EM_MANUTENCAO) {
+            if ($quantidade <= ($this->capacidade->getCombustivel() - $this->combustivelRestante)) {
                 $this->combustivelRestante += $quantidade;
                 return 'Aeronave abastecida com sucesso';
             }
@@ -88,9 +70,9 @@ class Aeronave
         return 'A aeronave não pode abastecer';
     }
 
-    public function disponibilizar() : string
+    public function disponibilizar(): string
     {
-        if ($this->status == Status::INDISPONIVEL){
+        if ($this->status == Status::INDISPONIVEL) {
             $this->status = Status::DISPONIVEL;
             return 'A aeronave está disponível';
         }
@@ -105,27 +87,26 @@ class Aeronave
                 $this->localDaAeronave = $pista;
                 $this->status = Status::EMBARCANDO;
                 return 'A aeronave está pronta para embarcar passageiros';
-            } 
+            }
             return 'A aeronave é grande demais para essa pista';
         }
-            return 'Essa aeronave não está disponível para ser utilizada';
-    } 
+        return 'Essa aeronave não está disponível para ser utilizada';
+    }
 
-    public function addPassageiro(Passageiro $passageiro) : string
+    public function addPassageiro(Passageiro $passageiro): string
     {
-        if ($this->status == Status::EMBARCANDO){
+        if ($this->status == Status::EMBARCANDO) {
             array_push($this->passageirosEmbarcados, $passageiro);
             $this->calcularPesoDeCarga();
 
             return 'O passageiro embarcou no avião';
         }
         return 'Não foi possível embarcar o passageiro';
-        
     }
 
     public function embarcarEquipeBordo(EquipeBordo $equipe)
     {
-        if ($this->status == Status::EMBARCANDO){
+        if ($this->status == Status::EMBARCANDO) {
             $this->equipeBordo = $equipe;
             $this->calcularPesoDeCarga();
             $this->status = Status::PRONTO_PARA_VOO;
@@ -135,11 +116,11 @@ class Aeronave
         return 'Não foi possível embarcar a equipe';
     }
 
-   
 
-    public function voar(Voo $voo) : string
+
+    public function voar(Voo $voo): string
     {
-        if ($this->status == Status::PRONTO_PARA_VOO){ 
+        if ($this->status == Status::PRONTO_PARA_VOO) {
             $this->status = Status::EM_VOO;
             $voo->getOrigem()->removeAeronave($this);
             return $voo->iniciarVoo();
@@ -147,10 +128,9 @@ class Aeronave
         return 'Não foi possivel iniciar o voo';
     }
 
-    public function pousar(Voo $voo) : string
+    public function pousar(Voo $voo): string
     {
-        if ($this->status == Status::EM_VOO)
-        {
+        if ($this->status == Status::EM_VOO) {
             $this->combustivelRestante -= $voo->getConsumoCombustivel();
             $this->status = Status::DESEMBARCANDO;
             $voo->getDestino()->addAeronave($this);
@@ -159,13 +139,12 @@ class Aeronave
         return 'Não foi possível pousar';
     }
 
-    public function removePassageiro(Passageiro $passageiro) : string
+    public function removePassageiro(Passageiro $passageiro): string
     {
-        if ($passageiro->getStatus() == Status::EMBARCADO && $this->status == Status::DESEMBARCANDO)
-        {
+        if ($passageiro->getStatus() == Status::EMBARCADO && $this->status == Status::DESEMBARCANDO) {
             array_splice(
-                $this->passageirosEmbarcados, 
-                array_search($passageiro,$this->passageirosEmbarcados),
+                $this->passageirosEmbarcados,
+                array_search($passageiro, $this->passageirosEmbarcados),
                 1
             );
             $this->calcularPesoDeCarga();
@@ -173,6 +152,22 @@ class Aeronave
             return 'O passageiro desembarcou';
         }
         return 'Não foi possível desembarcar o passageiro';
+    }
+
+
+
+    public function setGalpao(Galpao $galpao)
+    {
+        $this->localDaAeronave = $galpao;
+    }
+
+    public function setManutencao(bool $manutencao)
+    {
+        if ($manutencao && $this->status == Status::INDISPONIVEL) {
+            $this->status = Status::EM_MANUTENCAO;
+        } else {
+            $this->status = Status::INDISPONIVEL;
+        }
     }
 
 
@@ -207,7 +202,7 @@ class Aeronave
         return $this->pesoDeCarga;
     }
 
-    public function getPassageirosEmbarcados() : array
+    public function getPassageirosEmbarcados(): array
     {
         return $this->passageirosEmbarcados;
     }

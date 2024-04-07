@@ -2,28 +2,28 @@
 
 namespace Gustafl\Aeroporto;
 
-class Comissario extends Tripulante{
+class Comissario extends Tripulante
+{
     private array $idiomas;
     private bool $treinamentoEmergencia;
     private int $anosDeExperiencia;
 
     public function __construct(
-        string $nome, 
-        Genero $genero, 
+        string $nome,
+        Genero $genero,
         int $cpf,
         float $peso,
         int $salario,
-        bool $treinamentoEmergencia, 
+        bool $treinamentoEmergencia,
         int $anosDeExperiencia
-    )
-    {
+    ) {
         parent::__construct($nome, $genero, $cpf, $peso, $salario);
         $this->idiomas = [];
         $this->treinamentoEmergencia = $treinamentoEmergencia;
         $this->anosDeExperiencia = $anosDeExperiencia;
     }
 
-    public function getCargo() : string
+    public function getCargo(): string
     {
         return 'comissári' . $this->getSufixoGenero();
     }
@@ -33,11 +33,11 @@ class Comissario extends Tripulante{
         return $this->idiomas;
     }
 
-    public function getIdiomasString() : string
+    public function getIdiomasString(): string
     {
         $idiomas = '';
 
-        foreach ($this->idiomas as $idioma){
+        foreach ($this->idiomas as $idioma) {
             $idiomas = $idiomas . $idioma . ' ';
         }
         return $idiomas;
@@ -48,7 +48,7 @@ class Comissario extends Tripulante{
         return $this->treinamentoEmergencia;
     }
 
-    public function getTreinamentoEmergenciaString() : string
+    public function getTreinamentoEmergenciaString(): string
     {
         if ($this->treinamentoEmergencia) return 'Sim';
         return 'Não';

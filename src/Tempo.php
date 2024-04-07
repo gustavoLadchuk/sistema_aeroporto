@@ -10,7 +10,7 @@ class Tempo
     private int $segundos;
 
     public function __construct(int $horas, int $minutos, int $segundos)
-    {   
+    {
         $this->segundos = $segundos % 60;
 
         $this->minutos = $segundos / 60;
@@ -18,7 +18,6 @@ class Tempo
 
         $this->horas = $minutos / 60;
         $this->horas += $horas;
-
     }
 
 
@@ -38,22 +37,21 @@ class Tempo
     }
 
 
-    public function converterParaMinutos() : int
+    public function converterParaMinutos(): int
     {
         $totalMinutos = ($this->horas * 60) + $this->minutos;
 
         return $totalMinutos;
-
     }
 
-    public function converterParaSegundos() : int
+    public function converterParaSegundos(): int
     {
         $totalSegundos = ($this->horas * 3600) + ($this->minutos * 60) + $this->segundos;
 
         return $totalSegundos;
     }
 
-    
+
 
 
     public function horarioToString(bool $mostrarSegundos): string
@@ -63,17 +61,17 @@ class Tempo
         $minutosFormatados = '';
         $segundosFormatados = '';
 
-        if ($this->horas < 10){
+        if ($this->horas < 10) {
             $horasFormatadas = '0';
         }
         $horasFormatadas = $horasFormatadas . $this->horas;
 
-        if ($this->minutos < 10){
+        if ($this->minutos < 10) {
             $minutosFormatados = '0';
         }
         $minutosFormatados = $minutosFormatados . $this->minutos;
 
-        if ($this->segundos < 10){
+        if ($this->segundos < 10) {
             $segundosFormatados = '0';
         }
         $segundosFormatados = $segundosFormatados . $this->segundos;

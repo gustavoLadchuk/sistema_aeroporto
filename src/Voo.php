@@ -2,7 +2,8 @@
 
 namespace Gustafl\Aeroporto;
 
-class Voo {
+class Voo
+{
 
     private int $id;
     private Aeronave $aeronave;
@@ -19,12 +20,13 @@ class Voo {
 
 
     public function __construct(
-        int $id, 
+        int $id,
         Aeronave $aeronave,
-        Aeroporto $origem, 
-        Aeroporto $destino, 
-        Tempo $horario, 
-        EquipeBordo $equipeBordo)
+        Aeroporto $origem,
+        Aeroporto $destino,
+        Tempo $horario,
+        EquipeBordo $equipeBordo
+    ) 
     {
         $this->id = $id;
         $this->aeronave = $aeronave;
@@ -34,36 +36,36 @@ class Voo {
         $this->passageiros = [];
         $this->horario = $horario;
         $this->equipeBordo = $equipeBordo;
-        
+
         $origem = $this->aeroportoOrigem->getLocalizacao();
         $destino = $this->aeroportoDestino->getLocalizacao();
         $latitude1 = $origem->getLatitude();
         $latitude2 = $destino->getLatitude();
         $longitude1 = $origem->getLongitude();
         $longitude2 = $destino->getLongitude();
-        $theta = $longitude1 - $longitude2; 
-        $distance = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta))); 
-        $distance = acos($distance); 
-        $distance = rad2deg($distance); 
-        $distance = $distance * 60 * 1.1515; 
-        
-        $this->distancia = (round($distance,2));
+        $theta = $longitude1 - $longitude2;
+        $distance = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta)));
+        $distance = acos($distance);
+        $distance = rad2deg($distance);
+        $distance = $distance * 60 * 1.1515;
+
+        $this->distancia = (round($distance, 2));
 
         $this->tempoDeVoo = ($this->distancia * 1.609344) / 800;
 
         $this->consumoCombustivel = 500 * $this->tempoDeVoo;
-
     }
 
 
 
-    public function disponibilizarVoo(): void {
+    public function disponibilizarVoo(): void
+    {
         $this->status = Status::DISPONIVEL;
     }
 
     public function iniciarVoo(): string
     {
-        if ($this->aeronave->getStatus() == Status::PRONTO_PARA_VOO){
+        if ($this->aeronave->getStatus() == Status::PRONTO_PARA_VOO) {
             $this->status = Status::EM_VOO;
             return 'Voo iniciado';
         }
@@ -72,9 +74,9 @@ class Voo {
 
     public function finalizarVoo(): string
     {
-        if ($this->aeronave->getStatus() == Status::DESEMBARCANDO){
-        $this->status = Status::ENCERRADO;
-        return 'Voo encerrado';
+        if ($this->aeronave->getStatus() == Status::DESEMBARCANDO) {
+            $this->status = Status::ENCERRADO;
+            return 'Voo encerrado';
         }
         return 'Não pode encerrar o voo';
     }
@@ -85,10 +87,10 @@ class Voo {
             $passageiro->getPassagem()->usarPassagem();
             $passageiro->setStatus(Status::EMBARCADO);
             return $this->aeronave->addPassageiro($passageiro);
-        } 
-        return 'O passageiro não pode embarcar';
         }
-    
+        return 'O passageiro não pode embarcar';
+    }
+
 
     public function desembarcarPassageiro(Passageiro $passageiro): string
     {
@@ -96,37 +98,36 @@ class Voo {
             $this->aeronave->removePassageiro($passageiro);
             return 'O passageiro desembarcou';
         }
-            return 'O passageiro não pode desembarcar';
+        return 'O passageiro não pode desembarcar';
     }
 
 
-    public function addPassageiros(Passageiro $passageiro) 
+    public function addPassageiros(Passageiro $passageiro)
     {
         array_push($this->passageiros, $passageiro);
-        if ($this->passageiros == $this->aeronave->getCapacidade()->getPassageiros())
-        {
+        if ($this->passageiros == $this->aeronave->getCapacidade()->getPassageiros()) {
             $this->status == Status::INDISPONIVEL;
         }
     }
 
 
 
-    public function setAeronave(Aeronave $aeronave) 
+    public function setAeronave(Aeronave $aeronave)
     {
         $this->aeronave = $aeronave;
     }
 
-    public function setEquipeBordo(EquipeBordo $equipeBordo) 
+    public function setEquipeBordo(EquipeBordo $equipeBordo)
     {
         $this->equipeBordo = $equipeBordo;
     }
 
-    public function setOrigem(Aeroporto $origem) 
+    public function setOrigem(Aeroporto $origem)
     {
         $this->aeroportoOrigem = $origem;
     }
 
-    public function setDestino(Aeroporto $destino) 
+    public function setDestino(Aeroporto $destino)
     {
         $this->aeroportoDestino = $destino;
     }
@@ -136,65 +137,66 @@ class Voo {
         $this->horario = $horario;
     }
 
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getAeronave() : Aeronave
+    public function getAeronave(): Aeronave
     {
         return $this->aeronave;
     }
 
-    public function getEquipeBordo() : EquipeBordo
+    public function getEquipeBordo(): EquipeBordo
     {
         return $this->equipeBordo;
     }
 
-    public function getOrigem() : Aeroporto
+    public function getOrigem(): Aeroporto
     {
         return $this->aeroportoOrigem;
     }
 
-    public function getDestino() : Aeroporto
+    public function getDestino(): Aeroporto
     {
         return $this->aeroportoDestino;
     }
 
-    public function getHorario() : Tempo
+    public function getHorario(): Tempo
     {
         return $this->horario;
     }
 
-    public function getStatus() : Status
+    public function getStatus(): Status
     {
         return $this->status;
     }
 
-    public function getPassageiros() : array
+    public function getPassageiros(): array
     {
         return $this->passageiros;
     }
 
-    public function getDistancia($unidade) : float {
-        
-        switch($unidade) { 
-            case 'milhas': 
+    public function getDistancia($unidade): float
+    {
+
+        switch ($unidade) {
+            case 'milhas':
                 return $this->distancia;
-              break; 
-            case 'kilometros' : 
-            return $this->distancia * 1.609344; 
-          } 
-      }
+                break;
+            case 'kilometros':
+                return $this->distancia * 1.609344;
+        }
+    }
 
-    public function getTempoVoo() : int
-      {
+    public function getTempoVoo(): int
+    {
         return $this->tempoDeVoo;
-      }
+    }
 
-    public function getConsumoCombustivel() : float
-      {
+    public function getConsumoCombustivel(): float
+    {
         return $this->consumoCombustivel;
-      }
+    }
 }

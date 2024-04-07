@@ -17,7 +17,7 @@ class EquipeBordo
         $this->comissarioDeBordo = $comissarioDeBordo;
     }
 
-    
+
 
     public function getPiloto(): Piloto
     {

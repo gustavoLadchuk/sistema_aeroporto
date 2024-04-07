@@ -2,7 +2,8 @@
 
 namespace Gustafl\Aeroporto;
 
-class Passagem {
+class Passagem
+{
 
     private int $id;
     private Voo $voo;
@@ -17,12 +18,12 @@ class Passagem {
 
 
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getVoo() : Voo
+    public function getVoo(): Voo
     {
         return $this->voo;
     }
@@ -32,7 +33,7 @@ class Passagem {
         return $this->validade;
     }
 
-    public function usarPassagem() 
+    public function usarPassagem()
     {
         $this->validade = false;
     }
