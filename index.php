@@ -23,7 +23,6 @@ $voos = [];
 array_push($aeronaves, 
 new Aeronave('Boeing 777', Tamanho::GRANDE, new Capacidade(100, 10000, 50000)));
 
-
 array_push($aeronaves, 
 new Aeronave('Airbus A380', Tamanho::MEDIO, new Capacidade(80, 7000, 30000)));
 
@@ -50,9 +49,27 @@ $aeroportos[1]->addPista(new Pista(4, Tamanho::GRANDE));
 $aeroportos[1]->addPista(new Pista(5, Tamanho::MEDIO));
 $aeroportos[1]->addPista(new Pista(6, Tamanho::PEQUENO));
 
+$aeroportos[0]->addGalpao(new Galpao(1, 10));
+$aeroportos[1]->addGalpao(new Galpao(2, 10));
+
 $aeroportos[0]->addAeronave($aeronaves[0]);
 $aeroportos[0]->addAeronave($aeronaves[1]);
 $aeroportos[1]->addAeronave($aeronaves[2]);
+
+//preparacao da aeronave
+
+$aeroportos[0]->levarParaGalpao($aeronaves[0], $aeroportos[0]->getGalpoes()[0]);
+
+$aeronaves[0]->setManutencao(true);
+
+$aeronaves[0]->abastecer($aeronaves[0]->getCapacidade()->getCombustivel());
+
+$aeronaves[0]->setManutencao(false);
+
+$aeronaves[0]->disponibilizar();
+
+$aeronaves[0]->prepararParaVoo($aeroportos[0]->getPistas()[0]);
+
 
 //tripulantes
 
@@ -105,8 +122,6 @@ new Passageiro('Ana Vitória', Genero::FEMININO, 98237590102, 98));
 $passageiros[0]->addBagagem(new Bagagem(8, 17));
 $passageiros[0]->addBagagem(new Bagagem(9, 23));
 
-$aeronaves[0]->embarcar($passageiros[0]);
-
 //voos
 
 array_push(
@@ -121,16 +136,32 @@ array_push(
         )
     );
 
-$voos[0]->addPassageiros($passageiros[0]);
-$voos[0]->addPassageiros($passageiros[1]);
-$voos[0]->addPassageiros($passageiros[2]);
-$voos[0]->addPassageiros($passageiros[3]);
-$voos[0]->addPassageiros($passageiros[4]);
-$voos[0]->addPassageiros($passageiros[5]);
-
-$voos[0]->setHorario(new Tempo(9, 30, 0));
+//inicio do voo
 
 $voos[0]->disponibilizarVoo();
+
+foreach ($passageiros as $passageiro){
+    $passageiro->comprarPassagem($voos[0]);
+    $passageiro->fazerCheckIn($passageiro->getPassagem(), $voos[0]);
+    echo $voos[0]->embarcarPassageiro($passageiro);
+}
+
+echo $aeronaves[0]->embarcarEquipeBordo($voos[0]->getEquipeBordo());
+
+//processo de voo
+
+$aeronaves[0]->voar($voos[0]);
+
+//finalização do voo
+
+$aeronaves[0]->pousar($voos[0]);
+
+foreach ($passageiros as $passageiro){
+     echo $voos[0]->desembarcarPassageiro($passageiro);
+}
+
+$aeroportos[1]->levarParaGalpao($aeronaves[0], $aeroportos[1]->getGalpoes()[0]);
+
 
 function cls()                                                                                                             
 {
@@ -270,6 +301,9 @@ function verificarElemento(int $selecao, int $operacao) : bool{
         'Origem: ' . $voos[$selecao - 2]->getOrigem()->getNome() . PHP_EOL .
         'Destino: ' . $voos[$selecao - 2]->getDestino()->getNome() . PHP_EOL .
         'Horario: ' . $voos[$selecao - 2]->getHorario()->horarioToString(false) . PHP_EOL .
+        'Distância: ' . $voos[$selecao - 2]->getDistancia('kilometros') . 'km' . PHP_EOL .
+        'Tempo estimado de voo: ' . $voos[$selecao - 2]->getTempoVoo()  . ' Horas'. PHP_EOL .
+        'Consumo estimado de combustível: ' . $voos[$selecao - 2]->getConsumoCombustivel() . ' Litros' . PHP_EOL .
         'Equipe de bordo:'. PHP_EOL .
          ' - Piloto(a): ' . $voos[$selecao - 2]->getEquipeBordo()->getPiloto()->getNome() . PHP_EOL .
          ' - Copiloto(a): ' . $voos[$selecao - 2]->getEquipeBordo()->getCopiloto()->getNome() . PHP_EOL .
@@ -283,7 +317,7 @@ function verificarElemento(int $selecao, int $operacao) : bool{
         echo
         'Modelo: ' . $aeronaves[$selecao - 2]->getModelo() . PHP_EOL . 
         'Tamanho: ' . $aeronaves[$selecao - 2]->getTamanho()->name . PHP_EOL . 
-        'Passageiros: ' . $aeronaves[$selecao - 2]->getPassageirosEmbarcados() . '/' . 
+        'Passageiros: ' . $aeronaves[$selecao - 2]->getQuantidadePassageirosEmbarcados() . '/' . 
         $aeronaves[$selecao - 2]->getCapacidade()->getPassageiros() . PHP_EOL . 
         'Combustível: ' . $aeronaves[$selecao - 2]->getCombustivelRestante() . '/' . 
         $aeronaves[$selecao - 2]->getCapacidade()->getCombustivel() . PHP_EOL . 
@@ -322,7 +356,8 @@ function verificarElemento(int $selecao, int $operacao) : bool{
         'Nome: ' . $aeroportos[$selecao - 2]->getNome() . PHP_EOL . 
         'Localização: ' . $aeroportos[$selecao - 2]->localizacaoToString() . PHP_EOL .
         'Aeronaves: ' . sizeof($aeroportos[$selecao - 2]->getAeronaves()) . PHP_EOL .
-        'Pistas: ' . sizeof($aeroportos[$selecao - 2]->getPistas()) . PHP_EOL;
+        'Pistas: ' . sizeof($aeroportos[$selecao - 2]->getPistas()) . PHP_EOL .
+        'Galpões: ' . sizeof($aeroportos[$selecao - 2]->getGalpoes()) . PHP_EOL;
         break;
 
         case 5:

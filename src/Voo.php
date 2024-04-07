@@ -11,7 +11,9 @@ class Voo {
     private Aeroporto $aeroportoDestino;
     private array $passageiros;
     private Tempo $horario;
-    private int $distancia;
+    private float $distancia;
+    private int $tempoDeVoo;
+    private float $consumoCombustivel;
     private Status $status;
 
 
@@ -33,11 +35,8 @@ class Voo {
         $this->horario = $horario;
         $this->equipeBordo = $equipeBordo;
         
-    }
-
-
-
-    function calcularDistancia(Local $origem, Local $destino, $unidade) {
+        $origem = $this->aeroportoOrigem->getLocalizacao();
+        $destino = $this->aeroportoDestino->getLocalizacao();
         $latitude1 = $origem->getLatitude();
         $latitude2 = $destino->getLatitude();
         $longitude1 = $origem->getLongitude();
@@ -47,25 +46,58 @@ class Voo {
         $distance = acos($distance); 
         $distance = rad2deg($distance); 
         $distance = $distance * 60 * 1.1515; 
-        switch($unidade) { 
-          case 'milhas': 
-            break; 
-          case 'kilometros' : 
-            $distance = $distance * 1.609344; 
-        } 
-        return (round($distance,2)); 
-      }
+        
+        $this->distancia = (round($distance,2));
+
+        $this->tempoDeVoo = ($this->distancia * 1.609344) / 800;
+
+        $this->consumoCombustivel = 500 * $this->tempoDeVoo;
+
+    }
+
+
 
     public function disponibilizarVoo(): void {
         $this->status = Status::DISPONIVEL;
     }
 
-    public function iniciarVoo(): void
+    public function iniciarVoo(): string
     {
-        $this->status = Status::EM_VOO;
+        if ($this->aeronave->getStatus() == Status::PRONTO_PARA_VOO){
+            $this->status = Status::EM_VOO;
+            return 'Voo iniciado';
+        }
+        return 'O voo não pode ser iniciado';
     }
 
+    public function finalizarVoo(): string
+    {
+        if ($this->aeronave->getStatus() == Status::DESEMBARCANDO){
+        $this->status = Status::ENCERRADO;
+        return 'Voo encerrado';
+        }
+        return 'Não pode encerrar o voo';
+    }
 
+    public function embarcarPassageiro(Passageiro $passageiro): string
+    {
+        if ($passageiro->getStatus() == Status::CHECKIN) {
+            $passageiro->getPassagem()->usarPassagem();
+            $passageiro->setStatus(Status::EMBARCADO);
+            return $this->aeronave->addPassageiro($passageiro);
+        } 
+        return 'O passageiro não pode embarcar';
+        }
+    
+
+    public function desembarcarPassageiro(Passageiro $passageiro): string
+    {
+        if ($passageiro->getStatus() == Status::EMBARCADO) {
+            $this->aeronave->removePassageiro($passageiro);
+            return 'O passageiro desembarcou';
+        }
+            return 'O passageiro não pode desembarcar';
+    }
 
 
     public function addPassageiros(Passageiro $passageiro) 
@@ -135,11 +167,6 @@ class Voo {
         return $this->horario;
     }
 
-    public function getDistancia() : int
-    {
-        return $this->distancia;
-    }
-
     public function getStatus() : Status
     {
         return $this->status;
@@ -149,4 +176,25 @@ class Voo {
     {
         return $this->passageiros;
     }
+
+    public function getDistancia($unidade) : float {
+        
+        switch($unidade) { 
+            case 'milhas': 
+                return $this->distancia;
+              break; 
+            case 'kilometros' : 
+            return $this->distancia * 1.609344; 
+          } 
+      }
+
+    public function getTempoVoo() : int
+      {
+        return $this->tempoDeVoo;
+      }
+
+    public function getConsumoCombustivel() : float
+      {
+        return $this->consumoCombustivel;
+      }
 }

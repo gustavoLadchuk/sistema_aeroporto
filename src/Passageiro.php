@@ -20,13 +20,18 @@ class Passageiro extends Pessoa{
 
 
 
-    public function fazerCheckIn(): void
+    public function fazerCheckIn(Passagem $passagem, Voo $voo): string
     {
-        $this->status = Status::CHECKIN;
+        if ($passagem->getVoo() == $voo && $passagem->getValidade()){
+            $this->status = Status::CHECKIN;
         
-        foreach ($this->bagagens as $bagagem) {
-            $bagagem->despachar();
+            foreach ($this->bagagens as $bagagem) {
+                $bagagem->despachar();
+            }
+            return 'O Check In foi feito com sucesso';
         }
+        return 'Não foi possível fazer Check in';
+       
     }
 
     public function addBagagem(Bagagem $bagagem): void
@@ -34,24 +39,32 @@ class Passageiro extends Pessoa{
         array_push($this->bagagens, $bagagem);
     }
 
+    public function recolherBagagens(): string
+    {
+        if ($this->status == Status::NAO_EMBARCADO){
+            foreach ($this->bagagens as $bagagem) {
+                $bagagem->coletar();
+            }
+            return 'O passageiro recolheu suas bagagens';
+        }
+        return 'Não foi possível recolher as bagagens';
+    }
+
    
-    public function embarcar(): void
+    public function setStatus(Status $status): void
     {
-        $this->status = Status::EMBARCADO;
+      $this->status = $status;
     }
 
-    public function desembarcar(): void
-    {
-        $this->status = Status::NAO_EMBARCADO;
-    }
-
-    public function comprarPassagem(Voo $voo)
+    public function comprarPassagem(Voo $voo) : string
     {
      if ($voo->getStatus() == Status::DISPONIVEL)
      {
         $voo->addPassageiros($this);
         $this->passagem = new Passagem(rand(0, 99999), $voo);
+        return 'Passagem comprada com sucesso';
      }
+     return 'Não foi possível comprar a passagem';
         
     }
 

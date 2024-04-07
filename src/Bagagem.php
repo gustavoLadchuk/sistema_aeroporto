@@ -6,23 +6,32 @@ class Bagagem {
 
     private int $id;
     private float $peso;
-    private string $status;
+    private Status $status;
 
     public function __construct(int $id, int $peso)
     {
         $this->id = $id;
         $this->peso = $peso;
-        $this->status = 'NÃO DESPACHADA';
+        $this->status = Status::NAO_DESPACHADA;
     }
 
-    public function despachar() : void 
+    public function despachar() : string 
     {
-        $this->status = 'DESPACHADA';
+        if ($this->status == Status::NAO_DESPACHADA){
+            $this->status = Status::DESPACHADA;
+            return 'A bagagem foi despachada';
+        }
+        return 'A bagagem não pode ser despachada';
     }
 
-    public function coletar() : void 
+    public function coletar() : string 
     {
-        $this->status = 'COLETADA';
+        if ($this->status == Status::DISPONIVEL_COLETA){
+            $this->status = Status::COLETADA;
+            return 'A bagagem foi coletada';
+        }
+        return 'A bagagem não pode ser despachada';
+
     }
 
     
@@ -32,7 +41,7 @@ class Bagagem {
         return $this->id;
     }
 
-    public function getStatus() : string
+    public function getStatus() : Status
     {
         return $this->status;
     }

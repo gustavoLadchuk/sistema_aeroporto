@@ -2,14 +2,13 @@
 
 namespace Gustafl\Aeroporto;
 
-class Pista {
+class Pista extends Estrutura{
 
-    private int $id;
     private Tamanho $tamanho;
     private Status $status;
 
     public function __construct(int $id, Tamanho $tamanho) {
-        $this->id = $id;
+        parent::__construct($id);
         $this->status = Status::DISPONIVEL;
         $this->tamanho = $tamanho;
     }
@@ -18,9 +17,6 @@ class Pista {
         $this->status = $status;
     }
 
-    public function getId() : int {
-        return $this->id;
-    }
 
     public function getTamanho() : Tamanho {
         return $this->tamanho;
